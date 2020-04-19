@@ -7,31 +7,31 @@ using UnityEngine.UI;
 
 public class PhotonLobby : MonoBehaviourPunCallbacks
 {
-    public static PhotonLobby lobby;
+    public static PhotonLobby lobby; // the instance of this class
 
-    public GameObject battleButton; // the "play" button that searches for lobbies
-    public GameObject cancelButton;
+    public GameObject battleButton; // the "play" button
+    public GameObject cancelButton; // the "cancel" button
 
-    public Text infoText;
+    public Text infoText; // text
 
     private void Awake ()
     {
         lobby = this;
     }
 
-    // Start is called before the first frame update
+    // connect to master photon server
     void Start()
     {
-        PhotonNetwork.ConnectUsingSettings(); // connects to master photon server
-
+        PhotonNetwork.ConnectUsingSettings(); 
     }
-
+    //once connected, enable battle button
     public override void OnConnectedToMaster()
     {
         Debug.Log("Player has connected to photon master server");
+        PhotonNetwork.AutomaticallySyncScene = true;
         battleButton.SetActive(true);
     }
-
+    //when battle button clicked, join a random room
     public void onBattleButtonClick()
     {
         Debug.Log("Battle button was clicked");
@@ -39,12 +39,13 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         cancelButton.SetActive(true);
         PhotonNetwork.JoinRandomRoom();
     }
-
+    // if no rooms can be found then create one
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.Log("tried to join a random game but failed. there must be no open games available");
         CreateRoom();
     }
+    // creates a room visible to other players, open for anyone to join, and witha max player count of 10
     void CreateRoom()
     {
         Debug.Log("Trying to create a new Room");
@@ -52,12 +53,14 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         RoomOptions roomOps = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = 10 };
         PhotonNetwork.CreateRoom("Room " + randomRoomName, roomOps);
     }
+    // if the room failed to create, then there must alreacy be a room of that name, create a new one with a different number
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         Debug.Log("Tried to create a new room but failed, there must already be a room with the same name");
         CreateRoom();
     }
 
+    // when cancel button is clicked, leave the lobby
     public void onCancelButtonCLick()
     {
         Debug.Log("Cancel button clicked");
@@ -67,9 +70,21 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         PhotonNetwork.LeaveRoom();
     }
 
+    // log info when a room is sucessfully joined
     public override void OnJoinedRoom()
     {
         Debug.Log("we are now in room #"+ PhotonNetwork.CurrentRoom.Name);
         infoText.text = "joined room #" + PhotonNetwork.CurrentRoom.Name;
     }
+
+    ///##############################################
+    ///                 custom functions
+    ///##############################################
+   
+
+    public void joinRoom(string roomName)
+    {
+        PhotonNetwork.JoinRoom(roomName);
+    }
+
 }

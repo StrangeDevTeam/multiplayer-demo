@@ -1,7 +1,11 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - GameSetup
     - PhotonLobby
+    - PhotonPlayer
+    - PhotonRoom
+    - PlayerMovement
     PhotonUnityNetworking.Demos.dll:
     - Photon.Pun.Demo.Asteroids.Asteroid
     - Photon.Pun.Demo.Asteroids.Bullet
@@ -12,6 +16,10 @@ ScriptsOnlyBuild:
     - Photon.Pun.Demo.PunBasics.PlayerUI
     - Photon.Pun.Demo.SlotRacer.PlayerControl
     - Photon.Pun.Demo.SlotRacer.Utils.SplineWalker
+    PhotonUnityNetworking.Editor.dll:
+    - Photon.Pun.PhotonTransformViewEditor
+    - Photon.Pun.PhotonViewInspector
+    - Photon.Pun.PunSceneSettings
     PhotonUnityNetworking.dll:
     - Photon.Pun.PhotonAnimatorView
     - Photon.Pun.PhotonRigidbodyView
@@ -126,6 +134,14 @@ ScriptsOnlyBuild:
       Script: {instanceID: 14684}
     - Class: 114
       Script: {instanceID: 14696}
+    - Class: 114
+      Script: {instanceID: 18980}
+    - Class: 114
+      Script: {instanceID: 21642}
+    - Class: 114
+      Script: {instanceID: 21652}
+    - Class: 114
+      Script: {instanceID: 22686}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -155,6 +171,27 @@ ScriptsOnlyBuild:
     - Class: 224
       Script: {instanceID: 0}
     - Class: 225
+      Script: {instanceID: 0}
+    Assets/Scenes/multiplayer.unity:
+    - Class: 1
+      Script: {instanceID: 0}
+    - Class: 4
+      Script: {instanceID: 0}
+    - Class: 20
+      Script: {instanceID: 0}
+    - Class: 28
+      Script: {instanceID: 0}
+    - Class: 81
+      Script: {instanceID: 0}
+    - Class: 104
+      Script: {instanceID: 0}
+    - Class: 114
+      Script: {instanceID: 21652}
+    - Class: 115
+      Script: {instanceID: 0}
+    - Class: 157
+      Script: {instanceID: 0}
+    - Class: 196
       Script: {instanceID: 0}
   scriptHashData:
   - hash:
@@ -1501,7 +1538,32 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: dd91abcd3be68fe314ea3620a8a97623
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PhotonRoom
+  - hash:
+      serializedVersion: 2
+      Hash: 72e7ff3fee0dfef0fafec64a24015b94
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PhotonPlayer
+  - hash:
+      serializedVersion: 2
+      Hash: d9c552f08e0468fff42f63944bbbd2d3
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: GameSetup
+  - hash:
+      serializedVersion: 2
+      Hash: dcd56f9eb2d9e8509e54e96d42988184
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PlayerMovement
   platform: 5
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
+  - Assets/Scenes/multiplayer.unity
   playerPath: D:/github/multiplayer demo/multiplayer-demo/multiplayer demo.exe
