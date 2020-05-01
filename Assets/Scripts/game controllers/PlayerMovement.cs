@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D RB2d; // the rigidbody 2d
     private BoxCollider2D BC2d; // the capsule collider
 
+    public AvatarAnimationController anim;
+
     public float movementSpeed; // the speed of the user when moving left or right
     public float jumpForce; // the force applied when the user jumps
     public float defaultGravity; // the rate at which the player falls
@@ -35,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
         PV = GetComponent<PhotonView>();
         RB2d = GetComponent<Rigidbody2D>();
         BC2d = GetComponent<BoxCollider2D>();
+        anim = GetComponent<AvatarAnimationController>();
     }
 
     // Update is called once per frame
@@ -50,9 +53,13 @@ public class PlayerMovement : MonoBehaviour
             }
             else
                 isFalling = false;
+
+        }
+        else
+        {
+            RB2d.gravityScale = 0;
         }
     }
-
     void Movement()
     {
         if (phaseThrough)
@@ -88,10 +95,18 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(rightKey))
         {
             RB2d.AddForce(new Vector2(movementSpeed * Time.deltaTime, 0));
+            anim.IsWalkingNormal = true;
+            anim.mirrorAnim = true;
         }
-        if (Input.GetKey(leftKey))
+        else if (Input.GetKey(leftKey))
         {
             RB2d.AddForce(new Vector2(-movementSpeed * Time.deltaTime, 0));
+            anim.IsWalkingNormal = true;
+            anim.mirrorAnim = false;
+        }
+        else
+        {
+            anim.IsWalkingNormal = false;
         }
     }
     void Gravity()
