@@ -147,12 +147,12 @@ PrefabInstance:
     - target: {fileID: 7422764721351682478, guid: 49a743af9556b334da9b1151ed6016e2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3.74
       objectReference: {fileID: 0}
     - target: {fileID: 7422764721351682478, guid: 49a743af9556b334da9b1151ed6016e2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.27
       objectReference: {fileID: 0}
     - target: {fileID: 7422764721351682478, guid: 49a743af9556b334da9b1151ed6016e2,
         type: 3}
@@ -1565,7 +1565,7 @@ GameObject:
   m_Layer: 0
   m_Name: Spawnpoint (1)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1837,7 +1837,7 @@ GameObject:
   m_Layer: 0
   m_Name: Spawnpoint (2)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
