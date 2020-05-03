@@ -80,11 +80,39 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     ///##############################################
     ///                 custom functions
     ///##############################################
-   
 
+
+    public InputField RoomName;
+    public Toggle isVisible;
+    public Toggle isOpen;
+    public InputField maxPlayers;
+    public Text errorText;
+    public void OnGoClicked()
+    {
+        int max_players;
+        if (int.TryParse(maxPlayers.text,out max_players))
+            CreateMyOwnRoom(RoomName.text, isVisible.isOn, isOpen.isOn, max_players);
+        else
+        {
+            errorText.text = "Please make sure you use a number.";
+        }
+    }
+    public void OnJoinClicked() // TODO 
+    {
+
+    }
     public void joinRoom(string roomName)
     {
         PhotonNetwork.JoinRoom(roomName);
+    }
+
+
+    // creates a room visible to other players, open for anyone to join, and witha max player count of 10
+    void CreateMyOwnRoom(string roomName, bool IsVisible , bool IsOpen, int MaxPlayers)
+    {
+        Debug.Log("Trying to create a new Room");
+        RoomOptions roomOps = new RoomOptions() { IsVisible = IsVisible, IsOpen = IsOpen, MaxPlayers = (byte)MaxPlayers };
+        PhotonNetwork.CreateRoom(roomName, roomOps);
     }
 
 }
