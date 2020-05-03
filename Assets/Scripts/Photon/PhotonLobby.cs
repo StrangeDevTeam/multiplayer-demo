@@ -11,7 +11,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     public GameObject offlineButton; // the "Offline Mode" button
     public GameObject QuickPlayButton; // the "quick play" button
     public GameObject cancelButton; // the "cancel" button
-    public int defaultMaxPlayers = 10; // by default, this is the max amount of players in one session
+    public byte defaultMaxPlayers = 10; // by default, this is the max amount of players in one session
 
     [Header("'Create game' inputs")]
     public GameObject createButton; // the "create" button
