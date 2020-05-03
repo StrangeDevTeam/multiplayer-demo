@@ -16,6 +16,8 @@ ScriptsOnlyBuild:
     - QuestHelper
     - TilesetManager
     - UIController
+    PhotonUnityNetworking.Editor.dll:
+    - Photon.Pun.PunSceneSettings
     PhotonUnityNetworking.dll:
     - Photon.Pun.PhotonAnimatorView
     - Photon.Pun.PhotonTransformView
@@ -207,12 +209,10 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 14530}
     - Class: 114
-      Script: {instanceID: 21372}
+      Script: {instanceID: 16596}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
-      Script: {instanceID: 0}
-    - Class: 136
       Script: {instanceID: 0}
     - Class: 157
       Script: {instanceID: 0}

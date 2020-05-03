@@ -88,8 +88,17 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     public Text errorText;
     public void OnGoClicked()
     {
+        string text;
+        if (maxPlayers.text == "")
+        {
+            text = "20"; // default 20 players
+        }
+        else
+        {
+            text = maxPlayers.text;
+        }
         int max_players;
-        if (int.TryParse(maxPlayers.text,out max_players))
+        if (int.TryParse(text,out max_players))
             CreateMyOwnRoom(RoomName.text, isVisible.isOn, isOpen.isOn, max_players);
         else
         {

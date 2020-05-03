@@ -25,10 +25,12 @@ public class EnemyComponent : MonoBehaviour
     {
         UIController.ShowInteractionTooltip();
     }
-    public void OnNoLongerNearby()
+
+    public void NoLongerNearby()
     {
         UIController.HideInteractionTooltip();
     }
+
     void Kill()
     {
         Destroy(this.gameObject);

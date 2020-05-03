@@ -36,13 +36,23 @@ public class PlayerInteraction2D : MonoBehaviour
         ///NoLongerNearby()
         //detect when the player as walked away from a collider and run NoLongerNearby() on it if possible
         for (int g = 0; g < previousColliders.Count; g++)               
-        {                                                               
-            for (int h = 0; h < nearbyColliders.Length; h++)            
-            {                                                           
-                if (previousColliders[g] == nearbyColliders[h])         
-                {                                                       
-                    previousColliders.Remove(previousColliders[g]);     
-                }                                                       
+        {
+            for (int h = 0; h < nearbyColliders.Length; h++)
+            {
+                if ((g < previousColliders.Count) && (h < nearbyColliders.Length))
+                {
+                    try
+                    {
+                        if (previousColliders[g] == nearbyColliders[h])
+                        {
+                            previousColliders.Remove(previousColliders[g]);
+                        }
+                    }
+                    catch
+                    {
+                        Debug.Log("index error");
+                    }
+                }
             }                                                           
         }
         for (int f = 0; f < previousColliders.Count; f++)                                                         
