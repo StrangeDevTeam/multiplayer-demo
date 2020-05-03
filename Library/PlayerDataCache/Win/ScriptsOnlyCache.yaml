@@ -14,10 +14,10 @@ ScriptsOnlyBuild:
     - PlayerInteraction2D
     - PlayerMovement
     - QuestHelper
+    - RoomListing
+    - RoomListingsMenu
     - TilesetManager
     - UIController
-    PhotonUnityNetworking.Editor.dll:
-    - Photon.Pun.PunSceneSettings
     PhotonUnityNetworking.dll:
     - Photon.Pun.PhotonAnimatorView
     - Photon.Pun.PhotonTransformView
@@ -96,13 +96,19 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11494}
     - Class: 114
+      Script: {instanceID: 11498}
+    - Class: 114
       Script: {instanceID: 11552}
     - Class: 114
       Script: {instanceID: 11960}
     - Class: 114
+      Script: {instanceID: 12074}
+    - Class: 114
       Script: {instanceID: 12262}
     - Class: 114
       Script: {instanceID: 12370}
+    - Class: 114
+      Script: {instanceID: 12628}
     - Class: 114
       Script: {instanceID: 12730}
     - Class: 114
@@ -131,6 +137,10 @@ ScriptsOnlyBuild:
       Script: {instanceID: 14466}
     - Class: 114
       Script: {instanceID: 14486}
+    - Class: 114
+      Script: {instanceID: 26404}
+    - Class: 114
+      Script: {instanceID: 26476}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -209,7 +219,7 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 14530}
     - Class: 114
-      Script: {instanceID: 16596}
+      Script: {instanceID: 19206}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -689,7 +699,7 @@ ScriptsOnlyBuild:
     className: TextContainer
   - hash:
       serializedVersion: 2
-      Hash: 40814fc587ac84951d396c1b25f3bba8
+      Hash: bab34d9b05d27932d339905133134d4b
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PhotonLobby
@@ -1047,6 +1057,18 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: e830d08950c3253a22792e81e418e03e
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: RoomListingsMenu
+  - hash:
+      serializedVersion: 2
+      Hash: cb09233c76daddc05202d37f509b9ef0
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: RoomListing
   platform: 5
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
