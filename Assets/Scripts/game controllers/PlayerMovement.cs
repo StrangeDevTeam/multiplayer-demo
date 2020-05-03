@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using Packages.Rider.Editor.UnitTesting;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private PhotonView PV; // the photon view
     private Rigidbody2D RB2d; // the rigidbody 2d
-    private BoxCollider2D BC2d; // the capsule collider
+    private CapsuleCollider2D CC2d; // the capsule collider
 
     public AvatarAnimationController anim;
 
@@ -17,13 +18,14 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce; // the force applied when the user jumps
     public float defaultGravity; // the rate at which the player falls
     public float phaseThroughTimer = 0; // the time the player has been able to phase through objects
-
+    public float phasetime = 0.5f; // the time the player will phase through objects when performing a down jump
+    public float isFallingLeniancy = 0.2f;
     public int collisions = 0; // the number of objects the player is colliding with
-
+    public int nearbyCollisions = 0;
     public bool phaseThrough = false; // true when the user is dropping through a platform
     public bool onDroppablePlatform = false; // true when the user is stood on a platform they can drop through
     public bool isOnGround; // true when the user is touching some form of ground or floor
-    public bool isFalling; // true when the user is falling in a downward velocity
+    public bool isFallingOrStatic; // false when the user is rising in a upward velocity
 
     //key binds
     KeyCode leftKey = KeyCode.A;
@@ -36,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
     {
         PV = GetComponent<PhotonView>();
         RB2d = GetComponent<Rigidbody2D>();
-        BC2d = GetComponent<BoxCollider2D>();
+        CC2d = GetComponent<CapsuleCollider2D>();
         anim = GetComponent<AvatarAnimationController>();
     }
 
@@ -47,17 +49,22 @@ public class PlayerMovement : MonoBehaviour
         {
             Gravity();
             Movement();
-            if (RB2d.velocity.y < 0)
+            if (RB2d.velocity.y < isFallingLeniancy)
             {
-                isFalling = true;
+                isFallingOrStatic = true;
             }
             else
-                isFalling = false;
+                isFallingOrStatic = false;
 
         }
         else
         {
             RB2d.gravityScale = 0;
+        }
+        if(nearbyCollisions < 1)
+        {
+            onDroppablePlatform = false;
+            isOnGround = false;
         }
     }
     void Movement()
@@ -65,11 +72,11 @@ public class PlayerMovement : MonoBehaviour
         if (phaseThrough)
         {
             phaseThroughTimer += Time.deltaTime;
-            if(phaseThroughTimer > 0.3f)
+            if(phaseThroughTimer > phasetime)
             {
                 phaseThroughTimer = 0;
                 phaseThrough = false;
-                BC2d.enabled = true;
+                CC2d.enabled = true;
             }
         }
         if (Input.GetKey(crouchKey))
@@ -78,8 +85,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (onDroppablePlatform)
                 {
-                    BC2d.enabled = false;
+                    CC2d.enabled = false;
                     phaseThrough = true;
+                    onDroppablePlatform = false;
+                    isOnGround = false;
                 }
             }
         }
@@ -125,26 +134,47 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        collisions++;
-        if((collision.gameObject.tag == "Ground" || collision.gameObject.tag == "GroundDownJump") && isFalling)
+        if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "GroundDownJump")
         {
-            if (collision.gameObject.tag == "GroundDownJump")
-                onDroppablePlatform = true;
-            isOnGround = true;
+            collisions++;
+            if (isFallingOrStatic)
+            {
+                if (collision.gameObject.tag == "GroundDownJump")
+                    onDroppablePlatform = true;
+                isOnGround = true;
+            }
+            
         }
+        
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        collisions--;
-        if (collisions < 1)
+        if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "GroundDownJump")
         {
-            if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "GroundDownJump")
+            collisions--;
+            if ((collisions < 1) && (nearbyCollisions < 0))
             {
                 if (collision.gameObject.tag == "GroundDownJump")
                     onDroppablePlatform = false;
                 isOnGround = false;
+                
             }
         }
         
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "GroundDownJump")
+        {
+            nearbyCollisions++;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "GroundDownJump")
+        {
+            nearbyCollisions--;
+        }
     }
 }
