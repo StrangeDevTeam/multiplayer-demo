@@ -11,7 +11,6 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
 
     public GameObject battleButton; // the "play" button
     public GameObject cancelButton; // the "cancel" button
-
     public Text infoText; // text
 
     private void Awake ()

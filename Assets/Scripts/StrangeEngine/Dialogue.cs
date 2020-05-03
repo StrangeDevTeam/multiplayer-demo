@@ -224,7 +224,7 @@ public class Dialogue : MonoBehaviour
             Quest.ActiveQuest = triggeredQuest;// TODO: add this into quest log (once implemented) instead of setting it to active
             Quest.ActiveQuest.started = true;
             Debug.Log("Quest triggered: " + triggeredQuest.title + "(set to active)");
-            if (!UIController.QuestHelperPanel.active)
+            if (!UIController.QuestHelperPanel.activeInHierarchy)
                 UIController.ShowQuestHelper();
         }
     }
