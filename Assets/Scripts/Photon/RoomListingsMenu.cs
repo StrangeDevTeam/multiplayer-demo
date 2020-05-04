@@ -11,6 +11,10 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
     private Transform _content;
     [SerializeField]
     private RoomListing _roomListing;
+    public float nextListingOffset = 45.4622f; // (139.18f - 46.4f)*0.7f*0.7f;
+
+
+    int index = 0;
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
@@ -20,6 +24,8 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
             if(listing != null)
             {
                 listing.SetRoomInfo(info);
+                listing.transform.position = new Vector2(listing.transform.position.x, listing.transform.position.y - nextListingOffset * (float)(index));
+                index++;
             }
         }
         if(PhotonLobby.lobby.FirstRun)
@@ -29,5 +35,3 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
     }
 
 }
-//
-//

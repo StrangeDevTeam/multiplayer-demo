@@ -26,6 +26,9 @@ public class PlayerMovement : MonoBehaviour
     public bool isOnGround; // true when the user is touching some form of ground or floor
     public bool isFallingOrStatic; // false when the user is rising in a upward velocity
 
+    const string Ground = "Ground";                 //Tag applied to a platform that cannot be dropped through.
+    const string GroundDownJump = "GroundDownJump"; //Tag applied to a platform that can be dropped through.
+
     //key binds
     KeyCode leftKey = KeyCode.A;
     KeyCode rightKey = KeyCode.D;
@@ -133,12 +136,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "GroundDownJump")
+        if (collision.gameObject.tag == Ground || collision.gameObject.tag == GroundDownJump)
         {
             collisions++;
             if (isFallingOrStatic)
             {
-                if (collision.gameObject.tag == "GroundDownJump")
+                if (collision.gameObject.tag == GroundDownJump)
                     onDroppablePlatform = true;
                 isOnGround = true;
             }
@@ -148,12 +151,12 @@ public class PlayerMovement : MonoBehaviour
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "GroundDownJump")
+        if (collision.gameObject.tag == Ground || collision.gameObject.tag == GroundDownJump)
         {
             collisions--;
             if ((collisions < 1) && (nearbyCollisions < 0))
             {
-                if (collision.gameObject.tag == "GroundDownJump")
+                if (collision.gameObject.tag == GroundDownJump)
                     onDroppablePlatform = false;
                 isOnGround = false;
                 
@@ -164,14 +167,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "GroundDownJump")
+        if (collision.gameObject.tag == Ground || collision.gameObject.tag == GroundDownJump)
         {
             nearbyCollisions++;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "GroundDownJump")
+        if (collision.gameObject.tag == Ground || collision.gameObject.tag == GroundDownJump)
         {
             nearbyCollisions--;
         }
