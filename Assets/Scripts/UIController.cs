@@ -17,7 +17,7 @@ public class UIController : MonoBehaviour
     
     void Start()
     {
-        ToggleMenus(); //default to cursor invisible on start
+        //ToggleMenus(); //default to cursor invisible on start
 
         InteractionPanel = GameObject.Find("InteractionPanel");
         InteractionPanel.SetActive(false);

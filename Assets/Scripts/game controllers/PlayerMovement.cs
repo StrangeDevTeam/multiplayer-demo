@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
     const string Ground = "Ground";                 //Tag applied to a platform that cannot be dropped through.
     const string GroundDownJump = "GroundDownJump"; //Tag applied to a platform that can be dropped through.
 
-    //key binds
+    //key binds // TODO: move to keybinds.cs
     KeyCode leftKey = KeyCode.A;
     KeyCode rightKey = KeyCode.D;
     KeyCode jumpKey = KeyCode.Space;

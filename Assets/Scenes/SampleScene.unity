@@ -3547,7 +3547,6 @@ MonoBehaviour:
   _content: {fileID: 847601047}
   _roomListing: {fileID: 2974143231449450946, guid: 158b4006592c2804381cb0eab0d1ade9,
     type: 3}
-  nextListingOffset: 92.77999
 --- !u!114 &1376289770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3845,8 +3844,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 58, y: -440.43}
-  m_SizeDelta: {x: 985.2528, y: 175.49887}
+  m_AnchoredPosition: {x: 48.9, y: -440.43}
+  m_SizeDelta: {x: 1082.4099, y: 175.49887}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1558035806
 GameObject:

@@ -10,6 +10,8 @@ public class Inventory
 {
     public List<InventorySlot> inv = new List<InventorySlot>();
 
+
+
     //search for an item in the inventory and return its index
     public int searchInvByItem(Item pItem)
     {

@@ -1,6 +1,7 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - Avatar
     - AvatarAnimationController
     - Bruce
     - CameraController
@@ -18,8 +19,6 @@ ScriptsOnlyBuild:
     - RoomListingsMenu
     - TilesetManager
     - UIController
-    PhotonUnityNetworking.Editor.dll:
-    - Photon.Pun.PunSceneSettings
     PhotonUnityNetworking.dll:
     - Photon.Pun.PhotonAnimatorView
     - Photon.Pun.PhotonTransformView
@@ -143,6 +142,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 14488}
     - Class: 114
       Script: {instanceID: 14494}
+    - Class: 114
+      Script: {instanceID: 14498}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1031,7 +1032,7 @@ ScriptsOnlyBuild:
     className: SignalEmitter
   - hash:
       serializedVersion: 2
-      Hash: 94dbf9310b315846f2154538b01ba971
+      Hash: e830d08950c3253a22792e81e418e03e
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: RoomListingsMenu

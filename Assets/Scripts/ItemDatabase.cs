@@ -18,6 +18,19 @@ public class ItemDatabase : MonoBehaviour
                 {"Example", 9000 }
             }
             )
+        ,
+        new Item
+            (
+            1,
+            "sword",
+            "this is a stick",
+            99,
+            new Dictionary<string, int>
+            {
+                {"durability", 10},
+                {"Example", 9000 }
+            }
+            )
     };
 
     public static Item SearchDatabaseByID(int ID)

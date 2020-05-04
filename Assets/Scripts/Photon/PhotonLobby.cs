@@ -45,10 +45,6 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings(); 
     }
 
-    private void Update()
-    {
-        Debug.Log(roomListingsPanel.transform.position);
-    }
 
     //once connected, enable buttons
     public override void OnConnectedToMaster()
