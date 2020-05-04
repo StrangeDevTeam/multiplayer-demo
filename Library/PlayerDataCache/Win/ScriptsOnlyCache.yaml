@@ -221,7 +221,7 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 14534}
     - Class: 114
-      Script: {instanceID: 17868}
+      Script: {instanceID: 22090}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -701,7 +701,7 @@ ScriptsOnlyBuild:
     className: TextContainer
   - hash:
       serializedVersion: 2
-      Hash: 6371a4bdffdb265d84fc647782d3f7c1
+      Hash: c558a67ecb8a38f60765af77770c7ea9
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PhotonLobby

@@ -14,9 +14,9 @@ public class RoomListing : MonoBehaviour
 
     public void SetRoomInfo(RoomInfo roomInfo)
     {
-        _text.text = roomInfo.PlayerCount+"/"+roomInfo.MaxPlayers + "   " + roomInfo.Name; // set the text for the icon in the lobby
-        RoomName = roomInfo.Name; // save the room name
-        if(roomInfo.PlayerCount< roomInfo.MaxPlayers) // loop through the sessions and change the style of the button to match
+        _text.text = roomInfo.PlayerCount+"/"+roomInfo.MaxPlayers + "   " + roomInfo.Name;
+        RoomName = roomInfo.Name;
+        if(roomInfo.PlayerCount< roomInfo.MaxPlayers)
         {
             if(roomInfo.IsOpen)
             { 
@@ -40,9 +40,6 @@ public class RoomListing : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// run when the join button for a session is clicked
-    /// </summary>
     public void JoinButtonClicked()
     {
         Debug.Log("join button clicked");

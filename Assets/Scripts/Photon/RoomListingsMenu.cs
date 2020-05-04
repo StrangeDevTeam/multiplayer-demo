@@ -14,7 +14,7 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        foreach (RoomInfo info in roomList) // loop through all the sessions and create a button for them
+        foreach (RoomInfo info in roomList)
         {
             RoomListing listing = Instantiate(_roomListing, _content);
             if(listing != null)
@@ -22,10 +22,12 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
                 listing.SetRoomInfo(info);
             }
         }
-        if(PhotonLobby.lobby.FirstRun) // run during startup, when the sessions are added into
+        if(PhotonLobby.lobby.FirstRun)
         {
-            PhotonLobby.lobby.roomListingsPanel.transform.position = PhotonLobby.lobby.GamesPanelPosition_Hidden;
+            //PhotonLobby.lobby.onHideGamesClicked(); // hide the loby menu on startup
         }
     }
 
 }
+//
+//

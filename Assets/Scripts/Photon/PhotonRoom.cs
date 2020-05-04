@@ -21,7 +21,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     private object myNumberInRoom;
 
 
-    //when joining a room, if the room instance is not yours, then get/join the owner's instance
+    //when joining a room, if the room instance is not yours, then get the owner's instance
     private void Awake()
     {
         if ( PhotonRoom.room == null)
@@ -67,7 +67,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         StartGame();
 
     }
-    // if you are not the owner of the room, then load the level. if you are, then you will already be in the level
+    // if you are not the owner of the room, then load the level
     void StartGame()
     {
         if(!PhotonNetwork.IsMasterClient)
