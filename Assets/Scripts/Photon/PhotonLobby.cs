@@ -31,8 +31,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     public GameObject showGamesButton; // the button that shows the panel on screen
     public GameObject hideGamesButton; // the button that hides the panel off screen
     public bool FirstRun = true; // true only when the game is starting up
-    public Vector2 GamesPanelPosition = new Vector2(939.8f, 307.7f); // the deafult position of the roomListings panel when on screen
-    public Vector2 GamesPanelPosition_Hidden = new Vector2(99939.8f, 307.7f); // the position the panel is set too off screen as to be hidden
+    public float gamesPanelOffset = 900; // the deafult position of the roomListings panel when on screen
 
     // singleton declaration
     private void Awake () 
@@ -44,6 +43,11 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     void Start()
     {
         PhotonNetwork.ConnectUsingSettings(); 
+    }
+
+    private void Update()
+    {
+        Debug.Log(roomListingsPanel.transform.position);
     }
 
     //once connected, enable buttons
@@ -170,14 +174,14 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     {
         FirstRun = false;
         showGamesButton.SetActive(false);
-        roomListingsPanel.transform.position = GamesPanelPosition;
+        roomListingsPanel.transform.position = new Vector2(roomListingsPanel.transform.position.x, (roomListingsPanel.transform.position.y + gamesPanelOffset));
     }
 
     // run when the "hide joinable games" is clicked
     public void onHideGamesClicked()
     {
         showGamesButton.SetActive(true);
-        roomListingsPanel.transform.position = GamesPanelPosition_Hidden; // see message below
+        roomListingsPanel.transform.position = new Vector2(roomListingsPanel.transform.position.x, (roomListingsPanel.transform.position.y - gamesPanelOffset)); // see message below
 
         /* 
          * due to how Photon  and unity work, i can not disable the RoomListings
