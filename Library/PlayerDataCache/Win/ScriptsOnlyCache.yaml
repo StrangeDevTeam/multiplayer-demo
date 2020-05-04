@@ -1031,7 +1031,7 @@ ScriptsOnlyBuild:
     className: SignalEmitter
   - hash:
       serializedVersion: 2
-      Hash: e830d08950c3253a22792e81e418e03e
+      Hash: 94dbf9310b315846f2154538b01ba971
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: RoomListingsMenu
