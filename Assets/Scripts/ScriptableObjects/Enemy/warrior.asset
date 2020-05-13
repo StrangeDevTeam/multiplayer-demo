@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5563bb6190e24d646a11608581104b77, type: 3}
+  m_Name: warrior
+  m_EditorClassIdentifier: 
+  identifier: WA
+  health: 5
+  enemyName: Warrior
+  DeadAnimation:
+  - {fileID: -901875763019949850, guid: 171925c60ebe3454ba3dc0cc9443b04c, type: 3}
+  - {fileID: -8619687366184502143, guid: 171925c60ebe3454ba3dc0cc9443b04c, type: 3}
+  - {fileID: 7052683626855393125, guid: 171925c60ebe3454ba3dc0cc9443b04c, type: 3}
+  - {fileID: -6042947940453679679, guid: 171925c60ebe3454ba3dc0cc9443b04c, type: 3}
+  HitAnimation:
+  - {fileID: 3170135656955256388, guid: 171925c60ebe3454ba3dc0cc9443b04c, type: 3}
+  IdleAnimation:
+  - {fileID: 8934357583514941622, guid: 171925c60ebe3454ba3dc0cc9443b04c, type: 3}
+  - {fileID: -2158552730637417258, guid: 171925c60ebe3454ba3dc0cc9443b04c, type: 3}
+  - {fileID: 2423428215328332097, guid: 171925c60ebe3454ba3dc0cc9443b04c, type: 3}
+  - {fileID: 3523066320913710892, guid: 171925c60ebe3454ba3dc0cc9443b04c, type: 3}
+  - {fileID: -2759163325742196975, guid: 171925c60ebe3454ba3dc0cc9443b04c, type: 3}
+  - {fileID: -5968041655285551006, guid: 171925c60ebe3454ba3dc0cc9443b04c, type: 3}
+  MovingAnimation:
+  - {fileID: 7051322375698704334, guid: 171925c60ebe3454ba3dc0cc9443b04c, type: 3}
+  - {fileID: -4238472615578771260, guid: 171925c60ebe3454ba3dc0cc9443b04c, type: 3}
+  - {fileID: 2347875337883632889, guid: 171925c60ebe3454ba3dc0cc9443b04c, type: 3}
+  - {fileID: -2273498508638076824, guid: 171925c60ebe3454ba3dc0cc9443b04c, type: 3}
+  JumpAnimation: []

@@ -221,8 +221,8 @@ public class Dialogue : MonoBehaviour
     {
         if (triggeredQuest != null)
         {
-            Quest.ActiveQuest = triggeredQuest;// TODO: add this into quest log (once implemented) instead of setting it to active
-            Quest.ActiveQuest.started = true;
+
+            PlayerData.data.activeQuests.Add(triggeredQuest);
             Debug.Log("Quest triggered: " + triggeredQuest.title + "(set to active)");
             if (!UIController.QuestHelperPanel.activeInHierarchy)
                 UIController.ShowQuestHelper();
@@ -231,16 +231,25 @@ public class Dialogue : MonoBehaviour
 
     public void CheckForQuestDialogue()
     {
-        //index through all quest objectives and if they can be converted to a TalkQuest, complete the quest
-        for(int i = 0; i< Quest.ActiveQuest.objectives.Count ; i++ )
+        if (PlayerData.data.activeQuests.Count > 0)
         {
-            TalkQuest activeTalkQuest = Quest.convertToTalkQuest(Quest.ActiveQuest.objectives[i]);
-            if( activeTalkQuest !=null)
+            // loop through all the active quests
+            for (int q = 0; q < PlayerData.data.activeQuests.Count; q++)
             {
-                if(activeTalkQuest.questedDialogue.dialogueID == currentDialogue.dialogueID)
+                // index through all quest objectives and if they can be converted to a TalkQuest
+                for (int i = 0; i < PlayerData.data.activeQuests[q].objectives.Count; i++)
                 {
-                    Debug.Log("Quest match!");
-                    activeTalkQuest.QuestedDialogueRun();
+                    TalkQuest activeTalkQuest = Quest.convertToTalkQuest(PlayerData.data.activeQuests[q].objectives[i]);
+                    if (activeTalkQuest != null)
+                    {
+                        // if the dialogue IDs match then you are currently running the quested dialogue
+                        if (activeTalkQuest.questedDialogue.dialogueID == currentDialogue.dialogueID)
+                        {
+                            // complete the objective
+                            Debug.Log("Quest match!");
+                            activeTalkQuest.QuestedDialogueRun();
+                        }
+                    }
                 }
             }
         }

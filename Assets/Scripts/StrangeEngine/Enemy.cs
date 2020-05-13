@@ -10,8 +10,19 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Enemy", menuName = "StrangeEngine/Enemy", order = 1)]
 public class Enemy : ScriptableObject
 {
+
+    public string identifier;
     public int health = 100;
     public string enemyName = "geoff";
+    public Sprite[] DeadAnimation;
+    public Sprite[] HitAnimation;
+    public Sprite[] IdleAnimation;
+    public Sprite[] MovingAnimation;
+    public Sprite[] JumpAnimation;
+
+
+
+
 
     /// <summary>
     /// create an enemy with a name and health
@@ -25,9 +36,9 @@ public class Enemy : ScriptableObject
     }
 
     //check if the enemy has been killed
-    public bool CheckforKill()
+    public bool CheckforKill(EnemyComponent EC)
     {
-        if (health <= 0)
+        if (EC.health <= 0)
         {
             OnKill();
             return true;
@@ -40,17 +51,21 @@ public class Enemy : ScriptableObject
     void OnKill()
     {
         //if active quest is tracking kills of this enemy, increment the amount of this enemy killed
-        Quest q = Quest.ActiveQuest;
-        for (int i = 0; i <q.objectives.Count; i++)
+        for (int qi = 0; qi < PlayerData.data.activeQuests.Count; qi++)
         {
-            KillQuest kq = converttoKillQuest(q.objectives[i]);
-            if(kq != null)
+            for (int i = 0; i < PlayerData.data.activeQuests[qi].objectives.Count; i++)
             {
-                for(int j = 0; j < kq.targets.Count; j++)
+                // check if the quest is a kill quest
+                KillQuest kq = converttoKillQuest(PlayerData.data.activeQuests[qi].objectives[i]);
+                if (kq != null)
                 {
-                    if (this == kq.targets[j])
+                    // if it is a killquest, check if you just killed oe of the targets
+                    for (int j = 0; j < kq.targets.Count; j++)
                     {
-                        kq.TargetKilled();
+                        if (this.identifier == kq.targets[j].identifier)
+                        {
+                            kq.TargetKilled();
+                        }
                     }
                 }
             }

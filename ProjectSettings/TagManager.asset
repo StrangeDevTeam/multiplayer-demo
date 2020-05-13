@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - GroundDownJump
+  - climbable
   layers:
   - Default
   - TransparentFX

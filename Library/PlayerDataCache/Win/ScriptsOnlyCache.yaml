@@ -1,6 +1,7 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - Autosave
     - Avatar
     - AvatarAnimationController
     - Bruce
@@ -9,14 +10,17 @@ ScriptsOnlyBuild:
     - Enemy
     - EnemyComponent
     - GameSetup
+    - MultiplayerSceneStartup
     - PhotonLobby
     - PhotonPlayer
     - PhotonRoom
+    - PlayerCreation
     - PlayerInteraction2D
     - PlayerMovement
     - QuestHelper
     - RoomListing
     - RoomListingsMenu
+    - SavesManager
     - TilesetManager
     - UIController
     PhotonUnityNetworking.dll:
@@ -41,8 +45,10 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -63,7 +69,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Text
     - UnityEngine.UI.Toggle
   sceneClasses:
-    Assets/Scenes/SampleScene.unity:
+    Assets/Scenes/MainMenu.unity:
     - Class: 1
       Script: {instanceID: 0}
     - Class: 4
@@ -71,6 +77,8 @@ ScriptsOnlyBuild:
     - Class: 20
       Script: {instanceID: 0}
     - Class: 21
+      Script: {instanceID: 0}
+    - Class: 23
       Script: {instanceID: 0}
     - Class: 28
       Script: {instanceID: 0}
@@ -88,62 +96,66 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 95
       Script: {instanceID: 0}
+    - Class: 102
+      Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11182}
+      Script: {instanceID: 11208}
     - Class: 114
-      Script: {instanceID: 11442}
+      Script: {instanceID: 11472}
     - Class: 114
-      Script: {instanceID: 11494}
+      Script: {instanceID: 11524}
     - Class: 114
-      Script: {instanceID: 11498}
+      Script: {instanceID: 11528}
     - Class: 114
-      Script: {instanceID: 11552}
+      Script: {instanceID: 11584}
     - Class: 114
-      Script: {instanceID: 11960}
+      Script: {instanceID: 11650}
     - Class: 114
-      Script: {instanceID: 12074}
+      Script: {instanceID: 12000}
     - Class: 114
-      Script: {instanceID: 12262}
+      Script: {instanceID: 12114}
     - Class: 114
-      Script: {instanceID: 12370}
+      Script: {instanceID: 12304}
     - Class: 114
-      Script: {instanceID: 12628}
+      Script: {instanceID: 12412}
     - Class: 114
-      Script: {instanceID: 12730}
+      Script: {instanceID: 12676}
     - Class: 114
       Script: {instanceID: 12778}
     - Class: 114
-      Script: {instanceID: 12822}
+      Script: {instanceID: 12828}
     - Class: 114
-      Script: {instanceID: 12984}
+      Script: {instanceID: 12872}
     - Class: 114
-      Script: {instanceID: 13012}
+      Script: {instanceID: 13034}
     - Class: 114
-      Script: {instanceID: 13092}
+      Script: {instanceID: 13062}
     - Class: 114
-      Script: {instanceID: 13318}
+      Script: {instanceID: 13144}
     - Class: 114
-      Script: {instanceID: 13324}
+      Script: {instanceID: 13378}
     - Class: 114
-      Script: {instanceID: 13448}
+      Script: {instanceID: 13384}
     - Class: 114
-      Script: {instanceID: 13650}
+      Script: {instanceID: 13510}
     - Class: 114
-      Script: {instanceID: 13820}
+      Script: {instanceID: 13716}
     - Class: 114
-      Script: {instanceID: 14228}
+      Script: {instanceID: 13888}
     - Class: 114
-      Script: {instanceID: 14344}
+      Script: {instanceID: 14302}
     - Class: 114
-      Script: {instanceID: 14468}
+      Script: {instanceID: 14418}
     - Class: 114
-      Script: {instanceID: 14488}
+      Script: {instanceID: 14548}
     - Class: 114
-      Script: {instanceID: 14494}
+      Script: {instanceID: 14568}
     - Class: 114
-      Script: {instanceID: 14498}
+      Script: {instanceID: 14574}
+    - Class: 114
+      Script: {instanceID: 14578}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -153,6 +165,57 @@ ScriptsOnlyBuild:
     - Class: 196
       Script: {instanceID: 0}
     - Class: 212
+      Script: {instanceID: 0}
+    - Class: 213
+      Script: {instanceID: 0}
+    - Class: 222
+      Script: {instanceID: 0}
+    - Class: 223
+      Script: {instanceID: 0}
+    - Class: 224
+      Script: {instanceID: 0}
+    Assets/Scenes/PlayerCreation.unity:
+    - Class: 1
+      Script: {instanceID: 0}
+    - Class: 4
+      Script: {instanceID: 0}
+    - Class: 20
+      Script: {instanceID: 0}
+    - Class: 21
+      Script: {instanceID: 0}
+    - Class: 28
+      Script: {instanceID: 0}
+    - Class: 48
+      Script: {instanceID: 0}
+    - Class: 81
+      Script: {instanceID: 0}
+    - Class: 104
+      Script: {instanceID: 0}
+    - Class: 114
+      Script: {instanceID: 11208}
+    - Class: 114
+      Script: {instanceID: 11524}
+    - Class: 114
+      Script: {instanceID: 11584}
+    - Class: 114
+      Script: {instanceID: 12304}
+    - Class: 114
+      Script: {instanceID: 13062}
+    - Class: 114
+      Script: {instanceID: 13378}
+    - Class: 114
+      Script: {instanceID: 13888}
+    - Class: 114
+      Script: {instanceID: 14548}
+    - Class: 114
+      Script: {instanceID: 14592}
+    - Class: 115
+      Script: {instanceID: 0}
+    - Class: 128
+      Script: {instanceID: 0}
+    - Class: 157
+      Script: {instanceID: 0}
+    - Class: 196
       Script: {instanceID: 0}
     - Class: 213
       Script: {instanceID: 0}
@@ -186,43 +249,45 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11182}
+      Script: {instanceID: 11208}
     - Class: 114
-      Script: {instanceID: 11408}
+      Script: {instanceID: 11438}
     - Class: 114
-      Script: {instanceID: 11448}
+      Script: {instanceID: 11478}
     - Class: 114
-      Script: {instanceID: 11494}
+      Script: {instanceID: 11524}
     - Class: 114
-      Script: {instanceID: 11498}
+      Script: {instanceID: 11528}
     - Class: 114
-      Script: {instanceID: 11542}
+      Script: {instanceID: 11574}
     - Class: 114
-      Script: {instanceID: 11552}
+      Script: {instanceID: 11584}
     - Class: 114
-      Script: {instanceID: 11898}
+      Script: {instanceID: 11938}
     - Class: 114
-      Script: {instanceID: 12032}
+      Script: {instanceID: 12072}
     - Class: 114
-      Script: {instanceID: 12074}
+      Script: {instanceID: 12114}
     - Class: 114
-      Script: {instanceID: 12262}
+      Script: {instanceID: 12304}
     - Class: 114
-      Script: {instanceID: 12370}
+      Script: {instanceID: 12412}
     - Class: 114
-      Script: {instanceID: 12628}
+      Script: {instanceID: 12676}
     - Class: 114
-      Script: {instanceID: 13300}
+      Script: {instanceID: 13360}
     - Class: 114
-      Script: {instanceID: 13820}
+      Script: {instanceID: 13888}
     - Class: 114
-      Script: {instanceID: 13918}
+      Script: {instanceID: 13992}
     - Class: 114
-      Script: {instanceID: 14468}
+      Script: {instanceID: 14548}
     - Class: 114
-      Script: {instanceID: 14534}
+      Script: {instanceID: 14616}
     - Class: 114
-      Script: {instanceID: 22090}
+      Script: {instanceID: 45278}
+    - Class: 114
+      Script: {instanceID: 73248}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -294,13 +359,19 @@ ScriptsOnlyBuild:
     className: PhotonStatsGui
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: BayatGames.SaveGameFree.Examples
+    className: ExampleMoveObject
+  - hash:
+      serializedVersion: 2
       Hash: e7a73f5f78ba6445195ec23b74a1ce2d
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_ScrollbarEventHandler
   - hash:
       serializedVersion: 2
-      Hash: b6ea4f4cb2c7b9ea34040761630221b1
+      Hash: 9342e90e52f7d045a514a647b4ef0b03
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Bruce
@@ -318,7 +389,7 @@ ScriptsOnlyBuild:
     className: PhotonAnimatorView
   - hash:
       serializedVersion: 2
-      Hash: 525764618fa7cb2e111a38a999778d56
+      Hash: 7b679b9d4c79b5689b69d0a146284d58
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Enemy
@@ -372,7 +443,7 @@ ScriptsOnlyBuild:
     className: TouchInputModule
   - hash:
       serializedVersion: 2
-      Hash: 71b859248adb977f3b65b9b76189aed1
+      Hash: 67e1a503107cbe248cb806b3542b8f59
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: EnemyComponent
@@ -400,6 +471,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_InputField
+  - hash:
+      serializedVersion: 2
+      Hash: 1e608874062b751ff67031619893ef21
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: SavesManager
   - hash:
       serializedVersion: 2
       Hash: 7ab0e790220bdca831fdd886b339039d
@@ -504,7 +581,7 @@ ScriptsOnlyBuild:
     className: AnimationPlayableAsset
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: d0adc65b6f54d204e5a5dc174eb9a803
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: UIController
@@ -606,6 +683,12 @@ ScriptsOnlyBuild:
     className: GameSetup
   - hash:
       serializedVersion: 2
+      Hash: 19661c8eb87fb08285f231a8d68fc700
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: BayatGames.SaveGameFree.Examples
+    className: ExampleSaveWeb
+  - hash:
+      serializedVersion: 2
       Hash: b3ab2106268377ffe25dd18ac23dca28
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
@@ -648,7 +731,7 @@ ScriptsOnlyBuild:
     className: SpriteSkinEntity
   - hash:
       serializedVersion: 2
-      Hash: e98b721bc9896e572f268b7f28f352be
+      Hash: 5ba2005aa4b116e6ded39ab6547a5800
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: AvatarAnimationController
@@ -736,6 +819,24 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: VerticalLayoutGroup
+  - hash:
+      serializedVersion: 2
+      Hash: a6742d7804d9ffde99f8f086d08d7a1a
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: BayatGames.SaveGameFree.Examples
+    className: ExampleSaveRotation
+  - hash:
+      serializedVersion: 2
+      Hash: 6432408546b84fb95f523fd055ac10b4
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: BayatGames.SaveGameFree
+    className: SaveGameAuto
+  - hash:
+      serializedVersion: 2
+      Hash: 2aeeec1b1a144c469cd2d37776bc2315
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: BayatGames.SaveGameFree.Examples
+    className: SerializerDropdown
   - hash:
       serializedVersion: 2
       Hash: 4ce15e99c635d2567873d27549d1f16f
@@ -828,10 +929,22 @@ ScriptsOnlyBuild:
     className: PunTurnManager
   - hash:
       serializedVersion: 2
+      Hash: 843ef066e2d14ad60d8f1875b01a933d
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: BayatGames.SaveGameFree.Examples
+    className: ExampleSaveCustom
+  - hash:
+      serializedVersion: 2
       Hash: dd91abcd3be68fe314ea3620a8a97623
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PhotonRoom
+  - hash:
+      serializedVersion: 2
+      Hash: a6742d7804d9ffde99f8f086d08d7a1a
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: BayatGames.SaveGameFree.Examples
+    className: ExampleSaveScale
   - hash:
       serializedVersion: 2
       Hash: 458215150b18ad62be70c422736998f8
@@ -880,6 +993,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.TestRunner.dll
     namespaceName: UnityEngine.TestTools
     className: BeforeAfterTestCommandState
+  - hash:
+      serializedVersion: 2
+      Hash: 33db3a4b513d315e5294bf0ddd9f53d7
+    assemblyName: FullSerializer.dll
+    namespaceName: 
+    className: RuntimeTestRunner
   - hash:
       serializedVersion: 2
       Hash: 3bb86ad9d5ad7e546256fe898ff5f397
@@ -936,7 +1055,7 @@ ScriptsOnlyBuild:
     className: OnEscapeQuit
   - hash:
       serializedVersion: 2
-      Hash: 70b6e506f762375518921cb19204ba59
+      Hash: 3b11be6d05fd776b6d4834ab3a10d61d
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerMovement
@@ -970,6 +1089,12 @@ ScriptsOnlyBuild:
     assemblyName: PhotonUnityNetworking.dll
     namespaceName: Photon.Pun
     className: PhotonView
+  - hash:
+      serializedVersion: 2
+      Hash: a6742d7804d9ffde99f8f086d08d7a1a
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: BayatGames.SaveGameFree.Examples
+    className: ExampleSavePosition
   - hash:
       serializedVersion: 2
       Hash: caa533b001ae39b864ba8425019e2268
@@ -1038,10 +1163,16 @@ ScriptsOnlyBuild:
     className: RoomListingsMenu
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: 5266fe50a7c9286f9e0090f79616c563
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Avatar
+  - hash:
+      serializedVersion: 2
+      Hash: 51d3028f361805cb7050c347f0b7b6e7
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PlayerCreation
   - hash:
       serializedVersion: 2
       Hash: 7072231382eb3c4871b3dd75ad0227e1
@@ -1072,8 +1203,21 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Autosave
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: MultiplayerSceneStartup
   platform: 5
   scenePathNames:
-  - Assets/Scenes/SampleScene.unity
+  - Assets/Scenes/MainMenu.unity
   - Assets/Scenes/multiplayer.unity
-  playerPath: D:/github/multiplayer demo/multiplayer-demo/multiplayer demo.exe
+  - Assets/Scenes/PlayerCreation.unity
+  playerPath: E:/Github/multiplayer demo/multiplayer-demo/multiplayer demo.exe

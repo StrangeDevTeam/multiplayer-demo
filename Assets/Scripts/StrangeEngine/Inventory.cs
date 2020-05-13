@@ -41,7 +41,7 @@ public class Inventory
                 }
             }
             //if found
-            if(found != -1)
+            if((found != -1)&&(!(inv[found].quantity >= inv[found].item.stackLimit)))
             {
                 inv[found].quantity++;
             }
@@ -58,6 +58,7 @@ public class Inventory
             InventorySlot newSlot = new InventorySlot(pItem);
             inv.Add(newSlot);
         }
+        InventoryMenu.singleton.UpdateInventoryUI();
     }
     //remove and item from the inventory
     public void RemoveItem(Item pItem)
@@ -91,6 +92,7 @@ public class Inventory
         {
             inv.Remove(inv[searchInvByItem(pItem)]);
         }
+        InventoryMenu.singleton.UpdateInventoryUI();
     }
 }
 public class InventorySlot

@@ -61,7 +61,7 @@ public class PlayerInteraction : MonoBehaviour
             // while a user is wihtin range of a collider and they haev pressed F. run Use() on it if possible
             if (!Dialogue.isInDialogue)
             {
-                if (Input.GetKeyDown(KeyBinds.useKey))                                                               
+                if (Input.GetKeyDown(KeyBinds.interactKey))                                                               
                 {                                                                                           
                     NearbyObject.SendMessage("Use", SendMessageOptions.DontRequireReceiver);                
                 }

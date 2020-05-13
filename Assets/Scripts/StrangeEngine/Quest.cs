@@ -9,16 +9,24 @@ using UnityEngine;
 
 public class Quest
 {
-    public static Quest ActiveQuest = null;
+    //public static Quest ActiveQuest = null;
+    public static int ID_Counter = 0; // the id of the next quest to be created
 
+    public int ID; // each quest has a unique counter
     public bool complete = false; // becomes true when all steps of the quest are complete
-    public bool started = false; // becomes true when the quest has been given to the player
-    public bool isTurnedIn = false;
+    public bool startedLocal = false; // becomes true when the quest has been given to the player
+    public bool TurnedIn = false; // becomes true when TurnInQuest() is run
     public string title = "quest title";
     public string info = "quest info";
     public List<QuestObjective> objectives = new List<QuestObjective>(); //the different objectives of the quest
     Item[] rewards; // the items given to the user on completion of the quest 
 
+
+
+    public Quest()
+    {
+        // used in loading quests from file, NOT to be used
+    }
    /// <summary>
     /// creates a Quest with a title info and a list of objectives
     /// </summary>
@@ -36,6 +44,8 @@ public class Quest
         {
             objective.attachParent(this);
         }
+        ID = ID_Counter;
+        ID_Counter++;
     }
     /// <summary>
     /// creates a Quest with a title info and a single objective
@@ -56,6 +66,8 @@ public class Quest
         {
             Objective.attachParent(this);
         }
+        ID = ID_Counter;
+        ID_Counter++;
     }
 
     public static KillQuest convertToKillQuest(QuestObjective pQuest)
@@ -82,10 +94,19 @@ public class Quest
             return null;
         }
     }
+
+    /// <summary>
+    /// used to set a singular item as a reward to this quest
+    /// </summary>
+    /// <param name="pItem"> the item you want to add as a reward to the quest</param>
     public void setReward(Item pItem)
     {
         rewards = new Item[1] { pItem };
     }
+    /// <summary>
+    /// used to set multiple items as rewards to this quest
+    /// </summary>
+    /// <param name="pitems"> the items you want to add as a reward to the quest</param>
     public void setRewards(Item[] pitems)
     {
         rewards = pitems;
@@ -98,7 +119,7 @@ public class Quest
     public void UpdateQuestStatus()
     {
         bool isQuestComplete = true;
-        foreach(QuestObjective objective in objectives)
+        foreach(QuestObjective objective in PlayerData.data.activeQuests[GetPlayerDataIndex()].objectives)
         {
             if(objective.objectiveComplete != true)
             {
@@ -108,17 +129,25 @@ public class Quest
         }
         if (isQuestComplete)
         {
-            complete = true;
+            complete = true; // sets LOCAL quest to complete :: Depreciated
             OnComplete();
         }
     }
-    //turns the quest in for rewards - can only be done once
+    /// <summary>
+    /// turns the quest in for rewards - can only be done once
+    /// </summary>
     public void TurnInQuest()
     {
-        if (!isTurnedIn)
+        // if quest is not already turned in, turn quest in
+        if (!PlayerData.data.activeQuests[this.GetPlayerDataIndex()].TurnedIn && !this.isAlreadyCompleteAndTurnedIn())
         {
             GiveRewards();
             Debug.Log("Quest " + title + " turned in!");
+            // add to players completed quest list
+            PlayerData.data.completedQuests.Add(this);
+            PlayerData.data.completedQuests[this.GetPlayerDataIndex()].TurnedIn = true;
+            // delete from players Active quest list
+            PlayerData.data.activeQuests.RemoveAt(this.GetPlayerDataIndex());
         }
         else
         {
@@ -129,19 +158,92 @@ public class Quest
     void OnComplete()
     {
         Debug.Log(title+" Completed");
+        PlayerData.data.activeQuests[this.GetPlayerDataIndex()].complete = true;
     }
+    // run once when the tuest is turned in
     void GiveRewards()
     {
         foreach( Item reward in rewards)
         {
-            Avatar.playerInv.AddItem(reward);
+            PlayerData.data.playerInv.AddItem(reward);
         }
     }
+    public bool isAlreadyActive()
+    {
+        for (int i = 0; i < PlayerData.data.activeQuests.Count; i++)
+        {
+            if (PlayerData.data.activeQuests[i].ID == this.ID)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// checks if the quest has been completed and turned in
+    /// </summary>
+    /// <returns></returns>
+    public bool isAlreadyCompleteAndTurnedIn()
+    {
+        for (int i = 0; i < PlayerData.data.completedQuests.Count; i++)
+        {
+            if (PlayerData.data.completedQuests[i].ID == this.ID)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool isAlreadyTurnedIn()
+    {
+        for (int i = 0; i < PlayerData.data.activeQuests.Count; i++)
+        {
+            if (PlayerData.data.activeQuests[i].ID == this.ID)
+            {
+                if(PlayerData.data.activeQuests[i].TurnedIn)
+                    return true;
+            }
+        }
+       
+        return false;
+    }
+
+    public bool isComplete()
+    {
+        for (int i = 0; i < PlayerData.data.activeQuests.Count; i++)
+        {
+            if (PlayerData.data.activeQuests[i].ID == this.ID)
+            {
+                if (PlayerData.data.activeQuests[i].complete)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+    /// <summary>
+    /// gets the index of this quest in the players activeQuest list (the quest log). returns -1 as rogue value
+    /// </summary>
+    /// <returns></returns>
+    public int GetPlayerDataIndex()
+    {
+        for (int i = 0; i < PlayerData.data.activeQuests.Count; i++)
+        {
+            if (PlayerData.data.activeQuests[i].ID == this.ID)
+            {
+                return i;
+            }
+        }
+        Debug.LogError("StrangeDev: GetPlayerDataIndex() Error");
+        return -1;
+    }
 }
-// referred to as "objectives" sometimes to elliviate confusion
+// referred to as "objectives" or "questSteps"
 public class QuestObjective
 {
-    public Quest ParentQuest = null; // the Quest that this Objective is a part of
+    public Quest ParentQuestLocal = null; // the Quest that this Objective is a part of
     public bool objectiveComplete = false; // true when this objective is complete
     public string title = "task title"; // the title of the objective
     public bool showTitle = true; // whether or not the title should show on the UI
@@ -159,7 +261,7 @@ public class QuestObjective
     //run when the Quest is created, attaches the parent Quest to these objectives
     public void attachParent(Quest pParentQuest)
     {
-        ParentQuest = pParentQuest;
+        ParentQuestLocal = pParentQuest;
     }
 }
 public class KillQuest : QuestObjective
@@ -199,14 +301,19 @@ public class KillQuest : QuestObjective
         if(amountKilled >= killsNeeded)
         {
             objectiveComplete = true;
-            ParentQuest.UpdateQuestStatus();
+            PlayerData.data.activeQuests[ParentQuestLocal.GetPlayerDataIndex()].UpdateQuestStatus();
         }
     }
 }
 public class TalkQuest : QuestObjective
 {
-    public Dialogue questedDialogue; // the dialogue to run to complete the quest 
+    public Dialogue questedDialogue; // the dialogue to run to complete the quest objective
 
+    /// <summary>
+    /// creates a quest objectives that is completed when a dialogue is run
+    /// </summary>
+    /// <param name="pTitle"> the name of the objective (shown on the questhelper)</param>
+    /// <param name="pQuestedDialogue"> the dialogue that completes this quest step when run</param>
     public TalkQuest(string pTitle, Dialogue pQuestedDialogue)  : base(pTitle)
     {
         questedDialogue = pQuestedDialogue;
@@ -215,6 +322,6 @@ public class TalkQuest : QuestObjective
     public void QuestedDialogueRun()
     {
         objectiveComplete = true;
-        ParentQuest.UpdateQuestStatus();
+        PlayerData.data.activeQuests[ParentQuestLocal.GetPlayerDataIndex()].UpdateQuestStatus();
     }
 }

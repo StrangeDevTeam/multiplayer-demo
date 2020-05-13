@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5563bb6190e24d646a11608581104b77, type: 3}
+  m_Name: orangeMushroom
+  m_EditorClassIdentifier: 
+  identifier: OM
+  health: 4
+  enemyName: Orange Mushroom
+  DeadAnimation:
+  - {fileID: -7082843568218275968, guid: 802898c7bac2e77438e6caa1d57594ad, type: 3}
+  - {fileID: 8958420420640631368, guid: 802898c7bac2e77438e6caa1d57594ad, type: 3}
+  - {fileID: -3258660377202221262, guid: 802898c7bac2e77438e6caa1d57594ad, type: 3}
+  HitAnimation:
+  - {fileID: -9122319557466151207, guid: 802898c7bac2e77438e6caa1d57594ad, type: 3}
+  IdleAnimation:
+  - {fileID: -5510248355505821607, guid: 802898c7bac2e77438e6caa1d57594ad, type: 3}
+  - {fileID: 216563450521292535, guid: 802898c7bac2e77438e6caa1d57594ad, type: 3}
+  MovingAnimation:
+  - {fileID: 8284589441044890637, guid: 802898c7bac2e77438e6caa1d57594ad, type: 3}
+  - {fileID: 3952905625967698852, guid: 802898c7bac2e77438e6caa1d57594ad, type: 3}
+  - {fileID: 6577492683945293049, guid: 802898c7bac2e77438e6caa1d57594ad, type: 3}
+  JumpAnimation:
+  - {fileID: 3952905625967698852, guid: 802898c7bac2e77438e6caa1d57594ad, type: 3}

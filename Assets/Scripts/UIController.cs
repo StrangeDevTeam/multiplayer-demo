@@ -10,6 +10,8 @@ public class UIController : MonoBehaviour
     public static GameObject DialoguePanel;
     public static GameObject DialogueChoices;
     public static GameObject QuestHelperPanel;
+    public static GameObject InventoryPanel;
+    public GameObject canvas;
 
 
     public static bool isCursorVisible = true; //when true, the user can use mouse to navigate menus without rotating the camera or player in game
@@ -17,6 +19,7 @@ public class UIController : MonoBehaviour
     
     void Start()
     {
+        canvas.SetActive(true);
         //ToggleMenus(); //default to cursor invisible on start
 
         InteractionPanel = GameObject.Find("InteractionPanel");
@@ -31,15 +34,25 @@ public class UIController : MonoBehaviour
         QuestHelperPanel = GameObject.Find("QuestHelperPanel");
         QuestHelperPanel.SetActive(false);
 
+        InventoryPanel = GameObject.Find("InventoryPanel");
+        InventoryPanel.SetActive(false);
+
     }
     
 
     void Update()
     {
         //when escape is pressed, toggle whether mouse moved charcter or cursor
-        if (Input.GetKeyDown(KeyCode.Escape))
+        /*if (Input.GetKeyDown(KeyCode.Escape))
         {
             ToggleMenus();
+        }*/
+        if(Input.GetKeyDown(KeyBinds.inventoryKey))
+        {
+            if (InventoryPanel.active)
+                InventoryPanel.SetActive(false);
+            else
+                InventoryPanel.SetActive(true);
         }
     }
 

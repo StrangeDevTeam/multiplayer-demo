@@ -11,6 +11,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public static PhotonRoom room; // the instance of this class running
     private PhotonView PV; 
 
+
     public bool isGameLoaded;
     public int currentScene;
     public int multiplayerScene;
@@ -72,6 +73,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     {
         if(!PhotonNetwork.IsMasterClient)
         {
+            Debug.Log("you are master, no point joining your own game");
             return;
         }
         PhotonNetwork.LoadLevel(multiplayerScene);
@@ -80,11 +82,14 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     // when the level is loaded, create your user's player
     void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("######## scene loaded");
-        currentScene = scene.buildIndex;
-        if(currentScene == multiplayerScene)
+        if (SavesManager.SceneLoaded)
         {
-            CreatePlayer();
+            Debug.Log("######## scene loaded");
+            currentScene = scene.buildIndex;
+            if (currentScene == multiplayerScene)
+            {
+                CreatePlayer();
+            }
         }
     }
 

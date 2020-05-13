@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Realtime;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -40,6 +41,89 @@ public class QuestHelper : MonoBehaviour
         //destroy objectives before making duplicates
         DestroyObjectives();
 
+        for ( int q  = 0; q < PlayerData.data.activeQuests.Count; q++)
+        {
+            GameObject newTitle = new GameObject("Quest title"); // create a gameobject for the quest title
+            newTitle.transform.SetParent(content.transform); // parenting with the scroll window
+            Text newTitleText = newTitle.AddComponent<Text>(); // adding text to the gameobject
+
+            RectTransform UITitledetails = newTitle.GetComponent<RectTransform>();
+            UITitledetails.anchorMin = new Vector2(0, 1);
+            UITitledetails.anchorMax = new Vector2(0, 1);
+            UITitledetails.sizeDelta = new Vector2(content.GetComponent<RectTransform>().rect.width, lineHeight*2);
+
+            // set the text for the quest title
+            newTitleText.text = "" +PlayerData.data.activeQuests[q].title;
+            newTitleText.fontStyle = FontStyle.BoldAndItalic;
+            Font ArialFont = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
+            newTitleText.font = ArialFont;
+
+            newTitle.transform.position =
+                    new Vector3(
+                    content.transform.position.x + (UITitledetails.rect.width / 2) + padding,
+                    content.transform.position.y - (UITitledetails.sizeDelta.y/2) - calculateHeight(),
+                    content.transform.position.z);
+
+            UIObjectives.Add(newTitle);// add to list
+
+            for (int i = 0; i < PlayerData.data.activeQuests[q].objectives.Count; i++)
+            {
+                //creating the gameobject, and dealing with inheritence
+                GameObject newGO = new GameObject("Objective");
+                newGO.transform.SetParent(content.transform);
+
+                //text
+                Text newGOtext = newGO.AddComponent<Text>();
+                if (!PlayerData.data.activeQuests[q].objectives[i].objectiveComplete)
+                {
+                    newGOtext.text = "- " + PlayerData.data.activeQuests[q].objectives[i].title;
+                }
+                else
+                {
+                    newGOtext.text = "+ (Completed)   " + PlayerData.data.activeQuests[q].objectives[i].title;
+                }
+                newGOtext.verticalOverflow = VerticalWrapMode.Overflow;
+                
+
+                //anchoring
+                RectTransform UIdetails = newGO.GetComponent<RectTransform>();
+                UIdetails.anchorMin = new Vector2(0, 1);
+                UIdetails.anchorMax = new Vector2(0, 1);
+
+
+                //positioning
+                Canvas.ForceUpdateCanvases();
+
+                int lines =  (int)Mathf.Ceil(newGOtext.text.Length/lineLength) +1;
+                float tempHeight = lineHeight * lines;
+                    //sizing
+                UIdetails.sizeDelta = new Vector2(content.GetComponent<RectTransform>().rect.width, tempHeight);
+                heights.Add(tempHeight);
+
+                newGO.transform.position =
+                    new Vector3(
+                    content.transform.position.x + (UIdetails.rect.width / 2) + padding,
+                    content.transform.position.y - (tempHeight/2) - calculateHeight(),
+                    content.transform.position.z);
+
+                //without a font, the text cannot render
+                newGOtext.font = ArialFont;
+                //newGOtext.material = ArialFont.material;
+
+                //add items to list
+                UIObjectives.Add(newGO);
+            }
+            //after adding the texts. adjust the height of the content
+            RectTransform contentSize = content.GetComponent<RectTransform>();
+            contentSize.sizeDelta = new Vector2(
+                contentSize.sizeDelta.x,
+                calculateHeight()
+                );
+
+        }
+
+        /* // no touch
+         * 
         if (Quest.ActiveQuest != null)
         {
             for (int i = 0; i < Quest.ActiveQuest.objectives.Count; i++)
@@ -97,7 +181,7 @@ public class QuestHelper : MonoBehaviour
                 calculateHeight()
                 );
 
-        }
+        }*/
     }
     static float calculateHeight()
     {
