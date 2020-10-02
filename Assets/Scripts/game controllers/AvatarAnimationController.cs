@@ -17,6 +17,7 @@ public class AvatarAnimationController : MonoBehaviour
     public bool mirrorAnim = false;
     public bool TwoHandedAttack = false;
     public bool OneHandedAttack = false;
+    public bool showJumpAnimation = false;
     public Animator anim;
     // Start is called before the first frame update
     void Start()
@@ -35,6 +36,7 @@ public class AvatarAnimationController : MonoBehaviour
             anim.SetBool("TwoHandedAttack", TwoHandedAttack);
             anim.SetBool("OneHandedAttack", OneHandedAttack);
             anim.SetFloat("IsClimbingSpeed", isClimbingSpeed);
+            anim.SetBool("isNotOnGround", showJumpAnimation);
             if (mirrorAnim != oldMirrorAnim)
             {
                 this.transform.localScale = new Vector2(-this.transform.localScale.x, this.transform.localScale.y);

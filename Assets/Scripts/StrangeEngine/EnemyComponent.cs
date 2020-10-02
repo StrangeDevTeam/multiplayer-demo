@@ -2,26 +2,33 @@
 // Free to use and modify as you please, Not to be published, distributed, licenced or sold without permission from StrangeDevTeam
 // Requests for the above to be made here: https://www.reddit.com/r/StrangeDev/
 
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyComponent : MonoBehaviour
 {
+    
+    public EnemySpawner parentSpawner;
     public Enemy enemyReference;
     public int health;
+    public PhotonView PV;
+
+    GameObject player; // TODO :  make work with multiple clients: target closest player
 
     public void Use()
     {
+
     }
     public void Damage(int damage)
     {
-        health -= damage;
-        bool isDed = enemyReference.CheckforKill(this);
-        if (isDed)
-        {
-            Kill();
-        }
+        // display damage in screen
+        DamageIndicatorManager.singleton.SpawnDamageSplashNumber(this.transform, damage);
+
+        //tell the master client to kill the enemy
+        PV.RPC("RPC_DamageEnemy", RpcTarget.MasterClient, damage);
+
     }
 
     public void OnNearby()
@@ -36,21 +43,84 @@ public class EnemyComponent : MonoBehaviour
 
     void Kill()
     {
-        Destroy(this.gameObject);
-        PlayerInteraction2D.previousColliders.Remove(this.gameObject.GetComponent<Collider2D>());
+        //tell the master client to kill the enemy
+        PV.RPC("RPC_KillEnemy", RpcTarget.MasterClient);
     }
 
     
     private void Update()
     {
         Animations();
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Movement();
+        }
     }
     private void Start() // Move to SPAWN() when spaning engine done
     {
+        PV = this.GetComponent<PhotonView>();
         SR = GetComponent<SpriteRenderer>();
         health = enemyReference.health;
+        player = Avatar.singleton.gameObject;
     }
 
+
+
+
+    //  *********************************************** Sync to master ***************************************
+
+
+    [PunRPC]
+    void RPC_KillEnemy()
+    {
+
+        // remove the enemy from the spawner to make room for another to spawn
+        try
+        {
+            if (parentSpawner.enemies_list.Contains(this))
+                parentSpawner.enemies_list.Remove(this);
+        }catch
+        {
+            // destroy the enemy gameobject
+            Destroy(this.gameObject);
+            PlayerInteraction2D.previousColliders.Remove(this.gameObject.GetComponent<Collider2D>());
+        }
+        // destroy the enemy gameobject
+        Destroy(this.gameObject);
+        PlayerInteraction2D.previousColliders.Remove(this.gameObject.GetComponent<Collider2D>());
+
+        PV.RPC("RPC_DestroyEnemy", RpcTarget.OthersBuffered);
+    }
+
+    [PunRPC]
+    void RPC_DamageEnemy(int damage)
+    {
+        health -= damage;
+        bool isDed = enemyReference.CheckforKill(this);
+        if (isDed)
+        {
+            Kill();
+        }
+    }
+
+    [PunRPC]
+    void RPC_DestroyEnemy()
+    {
+        // destroy the enemy gameobject
+        Destroy(this.gameObject);
+        PlayerInteraction2D.previousColliders.Remove(this.gameObject.GetComponent<Collider2D>());
+    }
+
+    //  *********************************************** AI ***************************************
+
+
+    public enum enemyAgressionState { passive, neutral, agressive }; //An enum holding the current state of the player.
+
+    private void Movement()
+    {
+
+    }
 
     //  *********************************************** animations ***************************************
 

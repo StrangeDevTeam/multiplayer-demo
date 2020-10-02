@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -32,70 +33,58 @@ public class PlayerMovement : MonoBehaviour
     public int noOfJumpsUsed = 0;            //A counter, keeping track of the number of jumps a player has performed without touching the ground or a climbable object.
     const int maxNoOfJumps = 2;              //The number of jumps the player can make. 1 is no double jump.
     bool canJumpInMidair = false;            //Prevents holding the jump key to move upwards further.
+    float ropeReleaseCooldown = 1.0f;        //A period of time which th eplayer cannot jump off of a rope they have started climbing. Used to prevent spam jumping.
+    float timeConnectedToRope = 0.0f;
+    bool canJumpOffRope = false;
 
     //Strings used in the code.
     const string Ground = "Ground";         //Tag applied to a platform that cannot be dropped through.
     const string GroundDownJump = "GroundDownJump"; //Tag applied to a platform that can be dropped through.
     const string climbable = "climbable";      //Tag applied to an object that can be climbed.
 
-    enum playerState { idle, moving, crouchIdle, crouchMoving, jumping, climbing, falling }; //An enum holding the current state of the player.
-    playerState currentPlayerState = playerState.idle; //The default state is set to idle, though this will change as soon as the player is loaded in.
+    public enum playerState { idle, moving, crouchIdle, crouchMoving, jumping, climbing, falling }; //An enum holding the current state of the player.
+    public playerState currentPlayerState = playerState.idle; //The default state is set to idle, though this will change as soon as the player is loaded in.
 
 
-    // Start is called before the first frame update
     void Start()
     {
+        // get the components for later use
         PV = GetComponent<PhotonView>();
         RB2d = GetComponent<Rigidbody2D>();
         CC2d = GetComponent<CapsuleCollider2D>();
         anim = GetComponent<AvatarAnimationController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (PV.IsMine) //If the avatar is the players to control, and not another player on the screen.
         {
             Gravity();
             Movement();
-
-            if (RB2d.velocity.y < isFallingLeniancy) //Velocity has dropped below the leniency, 
+            AnimationHandler();
+            // set isFallingOrStatic
+            if (RB2d.velocity.y < isFallingLeniancy) 
                 isFallingOrStatic = true;
             else isFallingOrStatic = false;
 
-            if (RB2d.velocity.y < 0 && currentPlayerState != playerState.climbing) //Velocity is negative and not on a climbable object, the player must be falling.
-                currentPlayerState = playerState.falling;
 
-            if (currentPlayerState == playerState.climbing) // if the player is in the climbing state
-            {
-                // update the animation controller to display the correct animations
-                anim.isClimbing = true;
+           
 
-                // if the user is holding the upKey or Downkey, play animation
-                if(Input.GetKey(KeyBinds.upKey) || Input.GetKey(KeyBinds.crouchKey))
-                {
-                    anim.isClimbingSpeed = 1;
-                }
-                // otherwise freeze animation
-                else
-                {
-                    anim.isClimbingSpeed = 0;
-                }
-            }
-            else
+
+            if (nearbyCollisions < 1) //Player must be in the air.
             {
-                anim.isClimbing = false;
+                onDroppablePlatform = false;
+                isOnGround = false;
             }
         }
         else
             RB2d.gravityScale = 0;
 
-        if (nearbyCollisions < 1) //Player must be in the air.
-        {
-            onDroppablePlatform = false;
-            isOnGround = false;
-        }
+        
     }
+
+
+    // moves the player based on inputs
     void Movement()
     {
         if (phaseThrough) //Dropping through platform.
@@ -111,75 +100,140 @@ public class PlayerMovement : MonoBehaviour
 
         /************************************ Player Input  ************************************/
 
-        if (Input.GetKey(KeyBinds.crouchKey)) //Crouching.
+        // only move player if they arent in the middle of an attack animation
+        if (!anim.anim.GetCurrentAnimatorStateInfo(0).IsName("PlayerAvatar_Attack")&&
+            !anim.anim.GetCurrentAnimatorStateInfo(0).IsName("PlayerAvatar_OneHand_Attack"))
         {
-            if (currentPlayerState == playerState.climbing)
-                this.transform.Translate(0.0f, -climbSpeed * Time.deltaTime, 0.0f);
-            else
+            if (Input.GetKey(KeyBinds.crouchKey)) //Crouching.
             {
-                currentPlayerState = playerState.crouchIdle; //Player state is set to 'idle crouching'. If the player is moving, this is updated to 'crouch moving' when the code checks for movement button input.
-
-                if (Input.GetKey(KeyBinds.jumpKey)) //Attempts to drop through current platform/ ground.
+                if (currentPlayerState == playerState.climbing)
+                    this.transform.Translate(0.0f, -climbSpeed * Time.deltaTime, 0.0f);
+                else
                 {
-                    if (onDroppablePlatform)
+                    currentPlayerState = playerState.crouchIdle; //Player state is set to 'idle crouching'. If the player is moving, this is updated to 'crouch moving' when the code checks for movement button input.
+
+                    if (Input.GetKey(KeyBinds.jumpKey)) //Attempts to drop through current platform/ ground.
                     {
-                        CC2d.enabled = false;
-                        phaseThrough = true;
-                        onDroppablePlatform = false;
-                        isOnGround = false;
+                        if (onDroppablePlatform)
+                        {
+                            CC2d.enabled = false;
+                            phaseThrough = true;
+                            onDroppablePlatform = false;
+                            isOnGround = false;
+                        }
                     }
                 }
             }
-        }
-        else if (Input.GetKey(KeyBinds.jumpKey)) //Jumping
-        {
-            if (isOnGround || currentPlayerState == playerState.climbing) //Conditions allowing player to jump.
-                jump(1.0f);
-            else if (noOfJumpsUsed < maxNoOfJumps && canJumpInMidair)
-                jump(1.5f);
-
-        }
-        else if (Input.GetKeyUp(KeyBinds.jumpKey))
-            canJumpInMidair = true;
-
-        if (Input.GetKey(KeyBinds.movementRightKey) && currentPlayerState != playerState.climbing) //Right Movement.
-        {
-            RB2d.AddForce(new Vector2(movementSpeed * Time.deltaTime, 0.0f));
-            anim.IsWalkingNormal = true;
-            anim.mirrorAnim = true; //The animation for the player avatar faces to the left by default. This flips it.
-        }
-        else if (Input.GetKey(KeyBinds.movementLeftKey) && currentPlayerState != playerState.climbing) //Left Movement.
-        {
-            RB2d.AddForce(new Vector2(-movementSpeed * Time.deltaTime, 0.0f));
-            anim.IsWalkingNormal = true;
-            anim.mirrorAnim = false;
-        }
-        else if (Input.GetKey(KeyBinds.upKey)) //This is only used when climbing an object to move upwards.
-        {
-            if (currentPlayerState == playerState.climbing)
+            else if (Input.GetKey(KeyBinds.jumpKey)) //Jumping
             {
-                this.transform.Translate(0.0f, climbSpeed * Time.deltaTime, 0.0f);
+                if (isOnGround || (currentPlayerState == playerState.climbing && canJumpOffRope)) //Conditions allowing player to jump.
+                    jump(1.0f);
+                else if (noOfJumpsUsed < maxNoOfJumps && canJumpInMidair)
+                    jump(1.5f);
+
+            }
+            else if (Input.GetKeyUp(KeyBinds.jumpKey))
+                canJumpInMidair = true;
+
+            // right movement
+            if (Input.GetKey(KeyBinds.movementRightKey) && // right key pressed
+                currentPlayerState != playerState.climbing && // not climbing
+                currentPlayerState != playerState.jumping) // not jumping
+            {
+                RB2d.AddForce(new Vector2(movementSpeed * Time.deltaTime, 0.0f));
+                anim.IsWalkingNormal = true;
+                anim.mirrorAnim = true; //The animation for the player avatar faces to the left by default. This flips it.
+            }
+            // left movement
+            else if (Input.GetKey(KeyBinds.movementLeftKey) && // left key pressed
+                currentPlayerState != playerState.climbing && // not climbing
+                currentPlayerState != playerState.jumping) // not jumping
+            {
+                RB2d.AddForce(new Vector2(-movementSpeed * Time.deltaTime, 0.0f));
+                anim.IsWalkingNormal = true;
+                anim.mirrorAnim = false;
+            }
+            else if (Input.GetKey(KeyBinds.upKey)) //This is only used when climbing an object to move upwards.
+            {
+                if (currentPlayerState == playerState.climbing)
+                {
+                    this.transform.Translate(0.0f, climbSpeed * Time.deltaTime, 0.0f);
+                }
+            }
+            else
+            {
+                anim.IsWalkingNormal = false;
+            }
+
+
+            if ((Input.GetKey(KeyBinds.movementLeftKey) || Input.GetKey(KeyBinds.movementRightKey)) &&
+                (RB2d.velocity.y >= 0) && currentPlayerState != playerState.climbing)                   //Changes the players state to either 'moving' or 'crouch moving' depending on whether the player is crouching or not.
+                currentPlayerState = (currentPlayerState == playerState.crouchIdle ? currentPlayerState = playerState.crouchMoving : currentPlayerState = playerState.moving);
+
+            if (!Input.GetKey(KeyBinds.movementLeftKey) && !Input.GetKey(KeyBinds.movementRightKey) && !Input.GetKey(KeyBinds.jumpKey) &&
+                !Input.GetKey(KeyBinds.crouchKey) && (RB2d.velocity.y >= 0) && currentPlayerState != playerState.climbing) //No controls are being used, and player isn't falling.
+            {
+                currentPlayerState = playerState.idle;
+            }
+        }
+
+            if (currentPlayerState == playerState.climbing)
+                CC2d.enabled = false;
+            else if (!phaseThrough) CC2d.enabled = true;
+    }
+    // applies gravity to the player when in mid-air
+    void Gravity()
+    {
+        if (isOnGround) RB2d.gravityScale = 0;
+        else RB2d.gravityScale = defaultGravity;
+
+        if (currentPlayerState == playerState.climbing) RB2d.gravityScale = 0.0f; //If the player is climbing an object, disable gravity.
+    }
+    // adds the jump force to the player
+    void jump(float jumpMultiplier)
+    {
+        RB2d.AddForce(new Vector2(0, jumpForce * jumpMultiplier), ForceMode2D.Impulse);
+        isOnGround = false;
+        currentPlayerState = playerState.jumping;
+        noOfJumpsUsed++;
+        canJumpInMidair = false;
+    }
+    // descerns and passes values into the AvatarAnimationController
+    void AnimationHandler()
+    {
+        if (RB2d.velocity.y < 0 && currentPlayerState != playerState.climbing) //Velocity is negative and not on a climbable object, the player must be falling.
+            currentPlayerState = playerState.falling;
+
+        if (currentPlayerState == playerState.climbing) // if the player is in the climbing state
+        {
+            // update the animation controller to display the correct animations
+            anim.isClimbing = true;
+
+            // if the user is holding the upKey or Downkey, play animation
+            if (Input.GetKey(KeyBinds.upKey) || Input.GetKey(KeyBinds.crouchKey))
+            {
+                anim.isClimbingSpeed = 1;
+            }
+            // otherwise freeze animation
+            else
+            {
+                anim.isClimbingSpeed = 0;
             }
         }
         else
         {
-            anim.IsWalkingNormal = false;
+            anim.isClimbing = false;
         }
-
-
-        if ((Input.GetKey(KeyBinds.movementLeftKey) || Input.GetKey(KeyBinds.movementRightKey)) &&
-            (RB2d.velocity.y >= 0) && currentPlayerState != playerState.climbing)                   //Changes the players state to either 'moving' or 'crouch moving' depending on whether the player is crouching or not.
-            currentPlayerState = (currentPlayerState == playerState.crouchIdle ? currentPlayerState = playerState.crouchMoving : currentPlayerState = playerState.moving);
-
-        if (!Input.GetKey(KeyBinds.movementLeftKey) && !Input.GetKey(KeyBinds.movementRightKey) && !Input.GetKey(KeyBinds.jumpKey) &&
-            !Input.GetKey(KeyBinds.crouchKey) && (RB2d.velocity.y >= 0) && currentPlayerState != playerState.climbing) //No controls are being used, and player isn't falling.
+        if (!onDroppablePlatform &&
+           !isOnGround &&
+           !(currentPlayerState == playerState.climbing))
         {
-            currentPlayerState = playerState.idle;
+            anim.showJumpAnimation = true;
         }
-
-        if (currentPlayerState == playerState.climbing)
-            CC2d.enabled = false;
-        else if (!phaseThrough) CC2d.enabled = true;
+        else
+        {
+            anim.showJumpAnimation = false;
+        }
     }
 
 
@@ -228,8 +282,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.tag == climbable) //Used to increment a counter, keeping track of how many ropes the player is currently touching.
             noOfRopesCollidingWith++;
     }
-
-    private void OnTriggerStay2D(Collider2D collision) //Checks for collision every single frame the collision is taking place, rather than just the frame the collision occurs.
+    private void OnTriggerStay2D(Collider2D collision) //Checks for collision every frame.
     {
         if (collision.gameObject.tag == climbable)
         {
@@ -240,9 +293,16 @@ public class PlayerMovement : MonoBehaviour
                 this.RB2d.velocity = new Vector2(0.0f, 0.0f);
                 this.transform.position = new Vector2(collision.gameObject.transform.position.x, this.transform.position.y); //Clips player to the centre of the object they are trying to climb.
             }
+            timeConnectedToRope += Time.deltaTime;
+
+            if (timeConnectedToRope >= ropeReleaseCooldown) canJumpOffRope = true;
+            else
+            {
+                canJumpOffRope = false;
+                timeConnectedToRope = 0.0f;
+            }
         }
     }
-
     private void OnTriggerExit2D(Collider2D collision) //Exiting Trigger Collisions.
     {
         if (collision.gameObject.tag == Ground || collision.gameObject.tag == GroundDownJump)
@@ -256,20 +316,4 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void Gravity()
-    {
-        if (isOnGround) RB2d.gravityScale = 0;
-        else RB2d.gravityScale = defaultGravity;
-
-        if (currentPlayerState == playerState.climbing) RB2d.gravityScale = 0.0f; //If the player is climbing an object, disable gravity.
-    }
-
-    void jump(float jumpMultiplier)
-    {
-        RB2d.AddForce(new Vector2(0, jumpForce * jumpMultiplier), ForceMode2D.Impulse);
-        isOnGround = false;
-        currentPlayerState = playerState.jumping;
-        noOfJumpsUsed++;
-        canJumpInMidair = false;
-    }
 }

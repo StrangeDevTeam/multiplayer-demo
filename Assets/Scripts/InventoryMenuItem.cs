@@ -39,6 +39,7 @@ public class InventoryMenuItem : MonoBehaviour
     // shows the equip button next to the inventory item that was clicked
     private void showEquipButton()
     {
+        // generate and position button
         if(EquipButtonGameObject)
         {
             DestroyImmediate(EquipButtonGameObject);
@@ -50,6 +51,24 @@ public class InventoryMenuItem : MonoBehaviour
         EquipButtonGameObject.transform.position = new Vector2(
             this.transform.position.x + buttonOffset,
             this.transform.position.y);
+
+        // if weapon is already equipped
+        if (InventoryMenuItem.SelectedItemID == PlayerData.data.equippedWeaponIndex)
+        {
+            EquipButtonGameObject.GetComponentInChildren<Text>().text = "Equipped";
+            EquipButtonGameObject.GetComponentInChildren<Text>().color = new Color(255, 255, 255, 255);
+            EquipButtonGameObject.GetComponentInChildren<Button>().interactable = false;
+            EquipButtonGameObject.GetComponentInChildren<Image>().color = new Color(255, 0, 99, 255);
+        }
+        // if item is not already equipped
+        else
+        {
+            EquipButtonGameObject.GetComponentInChildren<Text>().text = "Equip";
+            EquipButtonGameObject.GetComponentInChildren<Text>().color = new Color(255, 255, 255, 255);
+            EquipButtonGameObject.GetComponentInChildren<Button>().interactable = true;
+            EquipButtonGameObject.GetComponentInChildren<Image>().color = new Color(0, 204, 205, 255);
+        }
+
 
     }
 }

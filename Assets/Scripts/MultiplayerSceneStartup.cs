@@ -13,6 +13,15 @@ public class MultiplayerSceneStartup : MonoBehaviour
         //PlayerData.data.playerInv.AddItem(ItemDatabase.SearchDatabaseByID(1));
         //PlayerData.data.playerInv.AddItem(ItemDatabase.SearchDatabaseByID(2));
         //PlayerData.data.playerInv.AddItem(ItemDatabase.SearchDatabaseByID(3));
+        //PlayerData.data.playerInv.AddItem(ItemDatabase.SearchDatabaseByID(1));
+        //PlayerData.data.playerInv.AddItem(ItemDatabase.SearchDatabaseByID(2));
+        //PlayerData.data.playerInv.AddItem(ItemDatabase.SearchDatabaseByID(3));
+        //PlayerData.data.playerInv.AddItem(ItemDatabase.SearchDatabaseByID(1));
+        //PlayerData.data.playerInv.AddItem(ItemDatabase.SearchDatabaseByID(2));
+        //PlayerData.data.playerInv.AddItem(ItemDatabase.SearchDatabaseByID(3));
+        //PlayerData.data.playerInv.AddItem(ItemDatabase.SearchDatabaseByID(2));
+        //PlayerData.data.playerInv.AddItem(ItemDatabase.SearchDatabaseByID(3));
+        //PlayerData.data.playerInv.AddItem(ItemDatabase.SearchDatabaseByID(2));
 
 
     }

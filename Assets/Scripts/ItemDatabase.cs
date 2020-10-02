@@ -33,7 +33,9 @@ public class ItemDatabase : MonoBehaviour
                 {"Example", 9000 }
             },
             "Sprites/Weapons/MAHA",
-            Weapon.WeaponType.Polearm
+            Weapon.WeaponType.Polearm,
+            10,
+            1
             )
         ,
 
@@ -48,7 +50,9 @@ public class ItemDatabase : MonoBehaviour
                 {"Example", 9000 }
             },
             "Sprites/Weapons/crescent rose",
-            Weapon.WeaponType.Polearm
+            Weapon.WeaponType.Polearm,
+            10,
+            2
             )
         ,
 
@@ -63,7 +67,9 @@ public class ItemDatabase : MonoBehaviour
                 {"Example", 9000 }
             },
             "Sprites/Weapons/stick",
-            Weapon.WeaponType.Sword
+            Weapon.WeaponType.Sword,
+            1,
+            0.5f
             )
     };
 

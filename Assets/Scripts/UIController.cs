@@ -42,15 +42,23 @@ public class UIController : MonoBehaviour
 
     void Update()
     {
-        //when escape is pressed, toggle whether mouse moved charcter or cursor
-        /*if (Input.GetKeyDown(KeyCode.Escape))
+        //when escape is pressed, hide the inventory
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            ToggleMenus();
-        }*/
+            //ToggleMenus();
+            if (InventoryPanel.active)
+            {
+                DestroyImmediate(InventoryMenuItem.EquipButtonGameObject);
+                InventoryPanel.SetActive(false);
+            }
+        }
         if(Input.GetKeyDown(KeyBinds.inventoryKey))
         {
             if (InventoryPanel.active)
+            {
+                DestroyImmediate(InventoryMenuItem.EquipButtonGameObject);
                 InventoryPanel.SetActive(false);
+            }
             else
                 InventoryPanel.SetActive(true);
         }

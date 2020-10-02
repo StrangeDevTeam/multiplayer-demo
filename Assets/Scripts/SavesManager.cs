@@ -29,6 +29,7 @@ public class SavesManager : MonoBehaviour
         }
         else
         {
+            // if player data does not exist, generate it by making the user create a character
             if (!SaveGame.Exists(playerDataPath))
             {
                 if (!backFromCreation)
@@ -45,11 +46,13 @@ public class SavesManager : MonoBehaviour
                     PhotonNetwork.ConnectUsingSettings();
                 }
             }
+            // if player data is found, play the game
             else
             {
                 Debug.Log("existing player data found");
                 PlayerData.data = SaveGame.Load<PlayerData>(playerDataPath,new PlayerData("corrupt file"));
                 SceneLoaded = true;
+                // if player data is corrupted, force user to make new character
                 if(PlayerData.data.Name == "corrupt file")
                 {
                     PhotonNetwork.Disconnect();

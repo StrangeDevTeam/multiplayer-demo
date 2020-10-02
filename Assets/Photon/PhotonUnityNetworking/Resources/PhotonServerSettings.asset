@@ -38,6 +38,13 @@ MonoBehaviour:
   - RespawnSpaceship
   - PRC_AddPlayerName
   - RPC_AddPlayerName
+  - RPC_AddPlayerHair
+  - RPC_updateWeaponSprite
+  - RPC_SpawnEnemy
+  - RPC_SyncEnemy
+  - RPC_KillEnemy
+  - RPC_DamageEnemy
+  - RPC_DestroyEnemy
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -73,7 +73,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     {
         if(!PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("you are master, no point joining your own game");
+            // user joined a lobby that is not their own
             return;
         }
         PhotonNetwork.LoadLevel(multiplayerScene);

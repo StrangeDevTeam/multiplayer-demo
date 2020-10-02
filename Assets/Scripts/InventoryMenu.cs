@@ -12,7 +12,7 @@ public class InventoryMenu : MonoBehaviour
     private InventoryMenuItem _itemListing;
 
     private  float nextListingOffset= 25;
-    private  float heightOflisting = 30;
+    private  float heightOflisting = 25.7f;
 
     public List<InventoryMenuItem> prefabList;
 

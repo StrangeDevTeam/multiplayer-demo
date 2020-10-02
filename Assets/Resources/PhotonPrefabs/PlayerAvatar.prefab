@@ -92,7 +92,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890368191303567084}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0251, y: -0.0053, z: 0}
+  m_LocalPosition: {x: 0.00502, y: -0.01572, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7305265534492011537}
@@ -137,7 +137,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 15
-  m_Sprite: {fileID: -9064456837609552796, guid: bd0bda2f8fbb63642b89a6e32c5d2911,
+  m_Sprite: {fileID: -5116093031660957987, guid: 2086d3fc98ddbe942828c6b7f0bc20c5,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -219,8 +219,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 12
-  m_Sprite: {fileID: -3318640803889795958, guid: bd0bda2f8fbb63642b89a6e32c5d2911,
-    type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -228,7 +227,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &2397749692394424569
@@ -699,7 +698,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 3
+  Synchronization: 1
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 3650533480038019609}
@@ -748,6 +747,7 @@ MonoBehaviour:
   isOnGround: 0
   isFallingOrStatic: 0
   noOfJumpsUsed: 0
+  currentPlayerState: 0
 --- !u!50 &-6946627780393441128
 Rigidbody2D:
   serializedVersion: 4
@@ -807,14 +807,20 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: IsWalkingNormal
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsClimbing
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsClimbingSpeed
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: TwoHandedAttack
+  - Type: 4
+    SynchronizeType: 1
+    Name: OneHandedAttack
+  - Type: 4
+    SynchronizeType: 0
+    Name: isNotOnGround
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
@@ -836,6 +842,7 @@ MonoBehaviour:
   mirrorAnim: 0
   TwoHandedAttack: 0
   OneHandedAttack: 0
+  showJumpAnimation: 0
   anim: {fileID: 0}
 --- !u!114 &2856855260424014540
 MonoBehaviour:
@@ -953,6 +960,8 @@ MonoBehaviour:
   name: 
   Two_Handed_weapon: {fileID: 9127771000044505865}
   One_Handed_weapon: {fileID: 7821090802487162482}
+  hair: {fileID: 2065654238376764059}
+  hairBehind: {fileID: 1890368191303567084}
 --- !u!1 &7172166004333997357
 GameObject:
   m_ObjectHideFlags: 0
@@ -1063,7 +1072,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 3
+  Synchronization: 1
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 6638849794993613589}

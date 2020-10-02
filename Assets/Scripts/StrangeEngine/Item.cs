@@ -61,21 +61,14 @@ public class Weapon : Item
     public float critMultiplier;
     public enum WeaponType { Polearm, Sword }
     public WeaponType type;
+    public float range;
 
-    private float polearm_range = 2;
 
-    public float GetRange()
-    {
-        if (type == WeaponType.Polearm)
-        {
-            return polearm_range;
-        }
-        return 0.5f;
-    }
-
-    public Weapon(int pID, string pName, string pInfo, int pWorth, Dictionary<string, int> pStats, string pSpritePath, WeaponType pType): base(pID, pName, pInfo,pWorth,pStats)
+    public Weapon(int pID, string pName, string pInfo, int pWorth, Dictionary<string, int> pStats, string pSpritePath, WeaponType pType, int pDamage, float pRange): base(pID, pName, pInfo,pWorth,pStats)
     {
         spritePath = pSpritePath;
         type = pType;
+        damage = pDamage;
+        range = pRange;
     }
 }
